@@ -1,0 +1,8 @@
+# Project exclude paths
+/el-framework-common/target/
+/el-framework-util/target/
+/el-server-auth/target/
+/el-server-govern/target/
+/el-service-api/target/
+/el-service-user/target/
+/.idea/
