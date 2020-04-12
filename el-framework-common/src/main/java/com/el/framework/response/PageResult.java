@@ -1,6 +1,8 @@
 package com.el.framework.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
@@ -11,7 +13,9 @@ import java.util.List;
  */
 @Data
 @ToString
-public class PageResult<T>{
+@NoArgsConstructor
+@AllArgsConstructor
+public class PageResult<T> implements BaseResult{
 
     /**
      * 数据列表

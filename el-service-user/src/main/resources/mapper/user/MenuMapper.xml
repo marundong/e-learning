@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.el.user.mapper.user.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.el.framework.model.user.entity.ElMenu">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="p_id" jdbcType="VARCHAR" property="pId" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="is_menu" jdbcType="CHAR" property="isMenu" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, code, p_id, menu_name, url, is_menu, `level`, sort, `status`, icon, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from el_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from el_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.el.framework.model.user.entity.ElMenu" useGeneratedKeys="true">
+    insert into el_menu (code, p_id, menu_name, 
+      url, is_menu, `level`, sort, 
+      `status`, icon, create_time, 
+      update_time)
+    values (#{code,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{isMenu,jdbcType=CHAR}, #{level,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR}, #{icon,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.el.framework.model.user.entity.ElMenu" useGeneratedKeys="true">
+    insert into el_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        code,
+      </if>
+      <if test="pId != null">
+        p_id,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="isMenu != null">
+        is_menu,
+      </if>
+      <if test="level != null">
+        `level`,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null">
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isMenu != null">
+        #{isMenu,jdbcType=CHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.el.framework.model.user.entity.ElMenu">
+    update el_menu
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null">
+        p_id = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isMenu != null">
+        is_menu = #{isMenu,jdbcType=CHAR},
+      </if>
+      <if test="level != null">
+        `level` = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.el.framework.model.user.entity.ElMenu">
+    update el_menu
+    set code = #{code,jdbcType=VARCHAR},
+      p_id = #{pId,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      is_menu = #{isMenu,jdbcType=CHAR},
+      `level` = #{level,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=CHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectMenuByUserId" resultType="com.el.framework.model.user.entity.ElMenu">
+    select
+      em.id, em.code, em.p_id, em.menu_name, em.url, em.is_menu, em.`level`, em.sort, em.`status`, em.icon, em.create_time,
+      em.update_time
+    from el_menu em left join el_permission ep on em.id = ep.menu_id
+    left join el_user_role eur on eur.role_id = ep.role_id
+    left join el_user eu on eur.user_id = eu.id
+    where eu.id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

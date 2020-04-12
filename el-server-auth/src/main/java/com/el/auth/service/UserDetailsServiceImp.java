@@ -1,8 +1,11 @@
 package com.el.auth.service;
 
+import com.el.auth.client.UserClient;
 import com.el.auth.entity.UserJwt;
 import com.el.framework.model.auth.entity.UserPermission;
 import com.el.framework.model.user.entity.ElMenu;
+import com.el.framework.model.user.result.UserPermissionResult;
+import com.el.framework.response.ResponseResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -18,13 +21,14 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author mrd
  * @description
  * @date 2020/03/16 15:38
  */
-@Service
+@Service("UserDetailServiceImp")
 public class UserDetailsServiceImp implements UserDetailsService {
 
     @Resource
@@ -32,6 +36,9 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private UserClient userClient;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -57,16 +64,16 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
         //取出正确密码（hash值）
         String password = userPermission.getPassword();
-        List<ElMenu> permissions = userPermission.getPermissions();
+        UserPermissionResult userPermissionByUserId =
+                userClient.getUserPermissionByUserId(userPermission.getId());
+        List<ElMenu> permissions = userPermissionByUserId.getPermissions();
         if (permissions == null) {
             permissions = new ArrayList<>();
         }
-        List<String> user_permission = new ArrayList<>();
-        permissions.forEach(item -> user_permission.add(item.getCode()));
-        String user_permission_string = StringUtils.join(user_permission.toArray(), ",");
+        String collect = permissions.stream().map(ElMenu::getCode).collect(Collectors.joining(","));
         UserJwt userDetails = new UserJwt(username,
                 password,
-                AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
+                AuthorityUtils.commaSeparatedStringToAuthorityList(collect));
         userDetails.setId(userPermission.getId());
         userDetails.setUtype(userPermission.getUtype());//用户类型
         userDetails.setCompanyId(userPermission.getCompanyId());//所属企业

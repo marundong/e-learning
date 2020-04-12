@@ -11,14 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableFeignClients
 @EnableDiscoveryClient
 @MapperScan("com.el.user.mapper")
 @EntityScan("com.el.framework.model.user.entity")
-@ComponentScan(basePackages = {"com.el.framework"})
-@ComponentScan(basePackages = {"com.el.api"})
+@ComponentScan("com.el.framework")
+@ComponentScan("com.el.api")
 @SpringBootApplication
 public class UserApplication {
     public static void main(String[] args) {

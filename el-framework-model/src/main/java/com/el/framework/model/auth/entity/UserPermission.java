@@ -4,6 +4,7 @@ import com.el.framework.model.user.entity.ElMenu;
 import com.el.framework.model.user.entity.ElUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString
+@RequiredArgsConstructor
 public class UserPermission extends ElUser {
     private static final long serialVersionUID = 8494407483354862380L;
     private List<ElMenu> permissions;

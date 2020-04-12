@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>el-framework-govern</artifactId>
+    <artifactId>el-server-govern</artifactId>
 
     <dependencies>
         <dependency>

@@ -1,6 +1,7 @@
 package com.el.auth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.bootstrap.encrypt.KeyProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -32,34 +34,33 @@ import java.security.KeyPair;
 @EnableAuthorizationServer
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+    @Resource(name = "keyProp")
+    private KeyProperties keyProperties;
 
-    @Autowired
+    @Resource
     private DataSource dataSource;
 
-    @Autowired
+    @Resource
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
-    @Autowired
+    @Resource
     private UserDetailsService userDetailsService;
 
-    @Autowired
+    @Resource
     private AuthenticationManager authenticationManager;
 
-    @Autowired
+    @Resource
     private TokenStore tokenStore;
 
-    @Autowired
+    @Resource
     private CustomUserAuthenticationConverter customUserAuthenticationConverter;
 
     //读取密钥的配置
+
     @Bean("keyProp")
     public KeyProperties keyProperties() {
         return new KeyProperties();
     }
-
-    @Resource(name = "keyProp")
-    private KeyProperties keyProperties;
-
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {

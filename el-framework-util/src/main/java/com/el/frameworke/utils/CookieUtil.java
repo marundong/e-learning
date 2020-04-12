@@ -1,21 +1,20 @@
 package com.el.frameworke.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by admin on 2018/3/18.
- */
 public class CookieUtil {
 
     /**
      * 设置cookie
      *
-     * @param response
-     * @param name     cookie名字
+     * @param response HttpServletResponse
+     * @param name     cookie名称
      * @param value    cookie值
      * @param maxAge   cookie生命周期 以秒为单位
      */
@@ -33,11 +32,10 @@ public class CookieUtil {
 
     /**
      * 根据cookie名称读取cookie
-     * @param request
-     * @param cookieName1,cookieName2
+     * @param request request
+     * @param cookieNames cookie名称
      * @return map<cookieName,cookieValue>
      */
-
     public static Map<String,String> readCookie(HttpServletRequest request,String ... cookieNames) {
         Map<String,String> cookieMap = new HashMap<String,String>();
             Cookie[] cookies = request.getCookies();
@@ -53,6 +51,18 @@ public class CookieUtil {
                 }
             }
         return cookieMap;
+    }
 
+    public static String getTokenFromCookie(HttpServletRequest request,String cookieName) {
+        Map<String, String> cookie = CookieUtil.readCookie(request, cookieName);
+        return cookie.get(cookieName);
+    }
+
+    public static String getJwtFromHeader(HttpServletRequest request){
+        String authorization = request.getHeader("Authorization");
+        if(StringUtils.isEmpty(authorization) || !authorization.startsWith("Bearer ")){
+            return null;
+        }
+        return authorization;
     }
 }

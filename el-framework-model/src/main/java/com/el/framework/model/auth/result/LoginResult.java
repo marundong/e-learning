@@ -1,5 +1,6 @@
 package com.el.framework.model.auth.result;
 
+import com.el.framework.response.BaseResult;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,7 +13,7 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
-public class LoginResult {
+public class LoginResult implements BaseResult {
 
     private String token;
 

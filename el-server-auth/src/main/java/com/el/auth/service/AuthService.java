@@ -1,12 +1,13 @@
 package com.el.auth.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.el.framework.client.ServiceList;
-import com.el.framework.code.ResultCode;
 import com.el.framework.exception.ExceptionCast;
 import com.el.framework.model.auth.AuthToken;
 import com.el.framework.model.auth.code.AuthCode;
 import com.el.framework.model.auth.request.LoginRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -24,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +37,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthService {
 
+    @Value("${auth.tokenValiditySeconds}")
+    int tokenValiditySeconds;
+
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -44,10 +49,7 @@ public class AuthService {
     @Resource
     private RestTemplate restTemplate;
 
-    public AuthToken login(LoginRequest loginRequest) {
-
-        String clientId = "XcWebApp";
-        String clientSecret = "XcWebApp";
+    public AuthToken login(LoginRequest loginRequest, String clientId, String clientSecret) {
         //请求spring security申请令牌
         AuthToken authToken = this.applyToken(loginRequest.getUserName(), loginRequest.getPassword(), clientId,
                 clientSecret);
@@ -59,7 +61,7 @@ public class AuthService {
         //存储到redis中的内容
         String jsonString = JSON.toJSONString(authToken);
         //将令牌存储到redis
-        boolean result = this.saveToken(accessToken, jsonString, 60*20);
+        boolean result = this.saveToken(accessToken, jsonString, 60 * 20);
         if (!result) {
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_TOKEN_SAVE_FAIL);
         }
@@ -105,22 +107,19 @@ public class AuthService {
 
         //申请令牌信息
         Map bodyMap = exchange.getBody();
-        if (bodyMap == null ||
-                bodyMap.get("access_token") == null ||
-                bodyMap.get("refresh_token") == null ||
-                bodyMap.get("jti") == null) {
-            if(bodyMap !=null && bodyMap.containsKey("error") ){
-                String error = bodyMap.get("error").toString();
-                switch (bodyMap.get("error").toString()){
-                    case "invalid_grant" :
-                        ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
-                    case "unauthorized" :
-                        ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOT_EXISTS);
-                }
-            }
+        if (bodyMap == null) {
             return null;
         }
-
+        if (bodyMap.containsKey("error") && bodyMap.get("error") != null) {
+            switch (bodyMap.get("error").toString()) {
+                case "invalid_grant":
+                    ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
+                case "unauthorized":
+                    ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOT_EXISTS);
+                default:
+                    return null;
+            }
+        }
 
         AuthToken authToken = new AuthToken();
         authToken.setAccessToken((String) bodyMap.get("jti"));//用户身份令牌
@@ -129,11 +128,30 @@ public class AuthService {
         return authToken;
     }
 
-    //获取httpbasic的串
+    //获取httpBasic的串
     private String getHttpBasic(String clientId, String clientSecret) {
         String string = clientId + ":" + clientSecret;
         //将串进行base64编码
         byte[] encode = Base64Utils.encode(string.getBytes());
         return "Basic " + new String(encode);
+    }
+
+    /**
+     * 获取jwtToken
+     *
+     * @param token cookieToken
+     * @return jwtToken
+     */
+    public String getUserJwt(String token) {
+        String key = "user_token:" + token;
+        String value = stringRedisTemplate.opsForValue().get(key);
+        AuthToken authToken = JSON.parseObject(value, AuthToken.class);
+        return authToken == null ? null : authToken.getJwtToken();
+    }
+
+    public boolean deleteToken(String token) {
+        String key = "user_token:" + token;
+        Boolean delete = stringRedisTemplate.delete(key);
+        return delete == null ? false : delete;
     }
 }

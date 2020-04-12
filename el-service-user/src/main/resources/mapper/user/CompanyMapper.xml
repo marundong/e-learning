@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.el.user.mapper.user.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.el.framework.model.user.entity.ElCompany">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="linkname" jdbcType="VARCHAR" property="linkname" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="identitypic" jdbcType="VARCHAR" property="identitypic" />
+    <result column="worktype" jdbcType="VARCHAR" property="worktype" />
+    <result column="businesspic" jdbcType="VARCHAR" property="businesspic" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, linkname, `name`, mobile, email, intro, logo, identitypic, worktype, businesspic, 
+    `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from el_company
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from el_company
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.el.framework.model.user.entity.ElCompany" useGeneratedKeys="true">
+    insert into el_company (linkname, `name`, mobile, 
+      email, intro, logo, 
+      identitypic, worktype, businesspic, 
+      `status`)
+    values (#{linkname,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{identitypic,jdbcType=VARCHAR}, #{worktype,jdbcType=VARCHAR}, #{businesspic,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.el.framework.model.user.entity.ElCompany" useGeneratedKeys="true">
+    insert into el_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="linkname != null">
+        linkname,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="logo != null">
+        logo,
+      </if>
+      <if test="identitypic != null">
+        identitypic,
+      </if>
+      <if test="worktype != null">
+        worktype,
+      </if>
+      <if test="businesspic != null">
+        businesspic,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="linkname != null">
+        #{linkname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="identitypic != null">
+        #{identitypic,jdbcType=VARCHAR},
+      </if>
+      <if test="worktype != null">
+        #{worktype,jdbcType=VARCHAR},
+      </if>
+      <if test="businesspic != null">
+        #{businesspic,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.el.framework.model.user.entity.ElCompany">
+    update el_company
+    <set>
+      <if test="linkname != null">
+        linkname = #{linkname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="identitypic != null">
+        identitypic = #{identitypic,jdbcType=VARCHAR},
+      </if>
+      <if test="worktype != null">
+        worktype = #{worktype,jdbcType=VARCHAR},
+      </if>
+      <if test="businesspic != null">
+        businesspic = #{businesspic,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.el.framework.model.user.entity.ElCompany">
+    update el_company
+    set linkname = #{linkname,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      identitypic = #{identitypic,jdbcType=VARCHAR},
+      worktype = #{worktype,jdbcType=VARCHAR},
+      businesspic = #{businesspic,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

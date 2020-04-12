@@ -3,9 +3,12 @@ package com.el.api.user;
 import com.el.framework.code.CommonCode;
 import com.el.framework.model.user.request.UserRegisterRequest;
 import com.el.framework.model.user.result.UserInfoResult;
+import com.el.framework.model.user.result.UserPermissionResult;
 import com.el.framework.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author mrd
@@ -20,4 +23,7 @@ public interface UserManageControllerApi {
 
     @ApiOperation("提交用户注册信息")
     ResponseResult<UserInfoResult> userRegister(UserRegisterRequest userRegisterRequest);
+
+    @GetMapping("/getUserPermission")
+    UserPermissionResult getUserPermissionByUserId(@RequestParam("userId") String userId);
 }

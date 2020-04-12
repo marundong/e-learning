@@ -15,11 +15,11 @@ public class PageRequest implements BaseRequest {
     /**
      * 请求页数据量
      */
-    int pageSize = 0;
+    int pageSize = 20;
 
     /**
      * 请求页码
      */
-    int pageNum = 10;
+    int pageNum = 1;
 
 }

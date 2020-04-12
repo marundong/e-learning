@@ -1,5 +1,7 @@
 server:
   port: ${PORT:8081} #服务端口
+  servlet:
+    context-path: /user
 spring:
   application:
     name: el-service-user #指定服务名
@@ -7,7 +9,7 @@ spring:
     druid:
       url: ${MYSQL_URL:jdbc:mysql://localhost:3306/el_user?characterEncoding=utf-8&serverTimezone=CST}
       username: root
-      password: mrd123456
+      password: root
       driverClassName: com.mysql.cj.jdbc.Driver
       initialSize: 5  #初始建立连接数量
       minIdle: 5  #最小连接数量
@@ -33,3 +35,13 @@ ribbon:
   OkToRetryOnAllOperations: false  #对所有操作请求都进行重试，如果是get则可以，如果是post，put等操作没有实现幂等的情况下是很危险的,所以设置为false
   ConnectTimeout: 5000  #请求连接的超时时间
   ReadTimeout: 6000 #请求处理的超时时间
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+
+logging:
+  level:
+    com:
+      el:
+        user:
+          mapper: debug

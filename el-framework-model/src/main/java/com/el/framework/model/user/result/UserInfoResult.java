@@ -1,5 +1,6 @@
 package com.el.framework.model.user.result;
 
+import com.el.framework.response.BaseResult;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
  * @date 2020/03/14 10:58
  */
 @Data
-public class UserInfoResult {
+public class UserInfoResult  implements BaseResult {
     private String id;
 
     private String username;
