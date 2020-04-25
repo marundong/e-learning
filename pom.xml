@@ -6,11 +6,11 @@
     <modules>
         <module>el-framework-common</module>
         <module>el-framework-util</module>
+        <module>el-framework-model</module>
         <module>el-service-api</module>
         <module>el-service-user</module>
         <module>el-server-govern</module>
         <module>el-server-gateway</module>
-        <module>el-a-mybatis-generate</module>
         <module>el-server-auth</module>
     </modules>
     <parent>
@@ -40,6 +40,7 @@
         <commons-io.version>2.6</commons-io.version>
         <fastjson.version>1.2.30</fastjson.version>
         <spring-security-jwt.version>1.0.8.RELEASE</spring-security-jwt.version>
+        <spring-security-oauth2.version>2.3.4.RELEASE</spring-security-oauth2.version>
         <zip4j.version>1.3.1</zip4j.version>
         <guava.version>24.0-jre</guava.version>
         <commons-fileupload>1.3.3</commons-fileupload>
@@ -130,16 +131,32 @@
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${spring-security-oauth2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        </pluginManagement>
     </build>
 
 </project>

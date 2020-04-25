@@ -8,7 +8,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>el-framework-model</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>el-framework-model</name>
     <description>el model</description>
 

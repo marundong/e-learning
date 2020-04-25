@@ -5,4 +5,7 @@
 /el-server-govern/target/
 /el-service-api/target/
 /el-service-user/target/
+/el-framework-model/target/
+/el-server-gateway/target/
 /.idea/
+*.iml
